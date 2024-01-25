@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors </title>
+    <style>
+        *{
+    margin: 0;
+    padding: 0;
+    text-align: center; 
+}
+
+h1{
+    background-color: blue;
+    color: white;
+    height: 5rem;
+    line-height: 5rem;  
+    
+}
+
+p{
+    display: flex;
+    justify-content: center;
+}
+
+.choices{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    margin-top: 2rem;
+    
+}
+
+.choice{
+    height: 165px;
+    width: 165px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+        
+}
+
+img{ 
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.choice:hover{
+    opacity: 0.5;
+    cursor: pointer;
+    background-color: darkblue;
+}
+
+.scores{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    margin-top: 4rem;
+    gap: 5rem;
+
+}
+
+#your-score, #comp-score{
+    font-size: 4rem;
+}
+
+.result{
+    margin-top: 5rem;
+}
+
+.msg{
+    background-color: green;
+    color: white;
+    font-size: 2rem;
+    display: inline;
+    padding: 1rem;
+    border-radius:1rem;
+}
+
+
+    </style>
+</head>
+<body>
+    <h1>Rock Paper Scissors</h1>
+    <div class="choices">
+        <div class="choice" id="rock">
+            <img src="\Rock.png" alt="Rock"></div>
+        <div class="choice" id="paper">
+            <img src="\Paper.png" alt="Rock"></div>
+        <div class="choice" id="scissors">
+            <img src="\Scissors.png" alt="Rock"></div>
+    </div>
+    <div class="scores">
+        <div class="yourScore">
+            <p>You</p>
+            <p id="your-score">0</p>
+        </div>
+        <div class="compScore">
+            <p>Computer</p>
+            <p id="comp-score">0</p>
+        </div>
+    </div>
+    <div class="result">
+        <h3 class="msg">Play the Game</h3>
+    </div>
+    <script>
+        let user = 0;
+let comp = 0;
+
+const choices = document.querySelectorAll(".choice");
+
+const compChoice= () => {
+    let choices=["rock", "paper", "scissors"];
+    let random= Math.floor(Math.random()*3);
+    return choices[random];
+}
+
+let msg = document.querySelector(".msg");
+const showWinner = (win) => {
+    if(win){
+        msg.innerText = "You Win";
+        msg.style.backgroundColor = "green"
+    }else{
+        msg.innerText = "You Lose";
+        msg.style.backgroundColor = "red";
+    }
+}
+
+const playGame = (userChoice) => {
+    console.log("user choice = ", userChoice);
+    let computer = compChoice();
+
+    console.log("comp choice = ", computer);
+
+    let win = true;
+
+        if(computer === userChoice){
+            return draw();
+        }else if(userChoice=="paper"){
+            win = computer === "rock" ? true : false;
+        }else if(userChoice === "rock"){
+            win = computer === "scissors"? true : false;
+        }else{
+            win = computer === "paper" ? true : false;
+        }
+
+        showWinner(win);
+        scoreBoard(win);
+}
+
+choices.forEach((choice) => {
+    console.log(choice);
+    choice.addEventListener("click", () =>{
+        
+        const userChoice = choice.getAttribute("id");
+        console.log("choice was selected", userChoice);
+        playGame(userChoice);
+
+    });
+});
+
+let draw = () => {
+    msg.innerText = "Draw! Try again";
+    msg.style.backgroundColor = "grey";
+}
+
+let compScore = document.querySelector("#comp-score");
+let userScore = document.querySelector("#your-score");
+let scoreBoard = (win) => {
+    if(win){
+        user++;
+        userScore.innerText = user;
+        
+    }else{
+        comp++;
+        compScore.innerText = comp;
+    }
+}
+
+
+    </script>  
+</body>
+</html>
